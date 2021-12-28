@@ -1,6 +1,10 @@
 const User = require('./user')
+
+
 const Leave = require('./leave')
 //向用户表中插入数据
+
+
 function InsertUser(username,password,number,major,class_,sex,phone,identity) {
     var user=new User({
         username:username,
@@ -21,14 +25,19 @@ function InsertUser(username,password,number,major,class_,sex,phone,identity) {
 }
 
 //向请假表中插入数据
-function InsertLeave(number,start_time, state, reason,teacher,end_time) {
+function InsertLeave(number,start_time, state, reason,teacher,end_time,sex,major,phone,username,class_) {
     var leave=new Leave({
         number:number,
         start_time:start_time,
         state:state,
         reason:reason,
         teacher:teacher,
-        end_time:end_time
+        end_time:end_time,
+        sex:sex,
+        major:major,
+        phone:phone,
+        username:username,
+        class_:class_
 
     })
     leave.save((err)=>{
@@ -38,17 +47,5 @@ function InsertLeave(number,start_time, state, reason,teacher,end_time) {
     
 }
 
-//学生查询自己的请假记录
-function QueryLeave(number){
-    Leave.find({"number": number}, (err, leave) => {
-        if(err)
-        {
-            console.log(err);
-            return ;
-        }
-        //console.log(leave)
-        return leave;
-        
-    })
-}
-module.exports={User,Leave,InsertUser,InsertLeave,QueryLeave}
+
+module.exports={User,Leave,InsertUser,InsertLeave}

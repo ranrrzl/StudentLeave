@@ -8,6 +8,7 @@
   },
   "author": "",
   "license": "ISC",
+  "git repository": "https://github.com/ranrrzl/StudentLeave",
   "dependencies": {
     "body-parser": "^1.19.1",
     "connect-multiparty": "^2.2.0",
