@@ -1,0 +1,75 @@
+<!--学生查询自己的请假记录-->
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<%-include('link.ejs')%>
+</head>
+<body>
+
+	<div class="container-fluid">
+		<%-include('s_top.ejs')%>
+
+		<div class="row" style="margin-top: 50px">
+			<%-include('s_list.ejs')%>
+
+			<div class="col-lg-9">
+
+				<div class="card ">
+				
+					<div class="card-body ">
+						<table class="table ">
+							<thead class="thead text-muted ">
+								<tr>
+									<th scope="col">序号</th>
+									<th scope="col">姓名</th>
+									<th scope="col">学号</th>
+									<th scope="col">性别</th>
+									<th scope="col">专业</th>
+									<th scope="col">班级</th>
+									<th scope="col">联系方式</th>
+									<th scope="col">开始时间</th>
+									<th scope="col">结束时间</th>
+									<th scope="col">原因</th>
+									<th scope="col">状态</th>
+									<th scope="col">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% for(var i = 0; i < list.length; i++) { %>
+									<tr>
+										<th scope="row"><%=i%>%></th>
+										<td><%=list[i].username%></td>
+										<td><%=list[i].number%></td>
+										<td><%=list[i].sex%></td>
+										<td><%=list[i].major%></td>
+										<td><%=list[i].class_%></td>
+										<td><%=list[i].phone%></td>
+										<td><%=list[i].start_time%></td>
+										<td><%=list[i].end_time%></td>
+										<td><%=list[i].reason%></td>
+										<td><%=list[i].state%></td>
+										<%if(list[i].state=="申请请假"){%>
+											<td><a class="btn btn-outline-primary" href="s_delet?_id=<%=list[i]._id%>" role="button">撤销</a></td>
+										<%}else if(list[i].state=="请假成功"){%>
+											<td><a class="btn btn-outline-primary" href="s_doTea?t_num=<%=list[i].teacher%>" role="button">查询</a></td>
+										<%}else{%>
+											<td><a class="btn btn-outline-primary" href="s_doTea?t_num=<%=list[i].teacher%>" role="button">查询</a></td>
+											<%}%>
+										</tr>
+									<%}%>
+							
+
+							</tbody>
+						</table>
+						
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

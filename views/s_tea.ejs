@@ -1,0 +1,43 @@
+<!-- 学生查询教师的信息 -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<%-include('link.ejs')%>
+</head>
+<body>
+
+	<div class="container-fluid">
+		<%-include('s_top.ejs')%>
+
+		<div class="row" style="margin-top: 50px">
+			<%-include('s_list.ejs')%>
+
+			<div class="col-lg-9">
+
+				<div class="card">
+					<div class="card-body">
+						<div>
+							<h3>教师信息</h3>
+							<div class="row">
+								<div class="col-lg-8">
+									<p>姓名：<%=tt.username%></p>
+									<p>性别：<%=tt.sex%></p>
+									<p>专业：<%=tt.major%></p>
+									<p>联系方式：<%=tt.phone%></p>
+							
+
+
+								</div>
+
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</body>
