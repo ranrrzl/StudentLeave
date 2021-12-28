@@ -52,11 +52,11 @@
 										<td><%=list[i].reason%></td>
 										<td><%=list[i].state%></td>
 										<%if(list[i].state=="申请请假"){%>
-											<td><a class="btn btn-outline-primary" href="s_delet?_id=<%=list[i]._id%>" role="button">撤销</a></td>
+											<td><a class="btn btn-outline-primary" href="/s_delet?_id=<%=list[i]._id%>" role="button">撤销</a></td>
 										<%}else if(list[i].state=="请假成功"){%>
-											<td><a class="btn btn-outline-primary" href="s_doTea?t_num=<%=list[i].teacher%>" role="button">查询</a></td>
+											<td><a class="btn btn-outline-primary" href="/s_doTea?t_num=<%=list[i].teacher%>" role="button">查询</a></td>
 										<%}else{%>
-											<td><a class="btn btn-outline-primary" href="s_doTea?t_num=<%=list[i].teacher%>" role="button">查询</a></td>
+											<td><a class="btn btn-outline-primary" href="/s_doTea?t_num=<%=list[i].teacher%>" role="button">查询</a></td>
 											<%}%>
 										</tr>
 									<%}%>

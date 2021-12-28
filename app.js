@@ -45,6 +45,10 @@ app.get('/t_index', (req, res) => {
     else res.render('t_index.ejs', { info: req.session.user.username })
 })
 
+app.get('/a_index', (req, res) => {
+    if (req.session.username == "admin") res.render('a_index.ejs', { info: "admin" })
+    else res.render('a_index.ejs', { info: null })
+})
 //学生登陆
 app.get('/s_login', (err, res) => {
     res.render('s_login.ejs', { info: null })
@@ -55,6 +59,10 @@ app.get('/t_login', (err, res) => {
     res.render('t_login.ejs', { info: null })
 })
 
+//管理员登陆
+app.get('/a_login', (err, res) => {
+    res.render('a_login.ejs', { info: null })
+})
 
 //学生注册
 app.get('/s_reg', (err, res) => {
@@ -112,6 +120,18 @@ app.post('/t_doLogin', (req, res) => {
         }
     })
 
+})
+
+//管理员登陆
+app.post('/a_doLogin', (req, res) => {
+    var number = req.body.number
+    var password = req.body.password
+    if(number=="admin"&&password=="123")
+    {
+        req.session.username = "admin"
+        res.render("a_index.ejs", { info: "admin" })
+    }
+    
 })
 
 
@@ -335,6 +355,158 @@ app.get('/doRufuse', (req, res) => {
 
     })
 })
+//管理员查看学生信息
+app.get('/doStu', (req, res) => {
+    //console.log(req.session.number)
+    Service.User.find({ "identity": "1" }, (err, user) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        // console.log(user)
+        res.render("a_student.ejs", {
+            info: req.session.username,
+            list: user
+        })
 
+
+    })
+})
+//管理员删除学生账号
+app.get('/delStu', (req, res) => {
+    console.log(req.query._id)
+    Service.User.deleteOne({ "_id": req.query._id }, function (err) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log('成功');
+    });
+
+    Service.User.find({ "identity": "1" }, (err, user) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        // console.log(user)
+        res.render("a_student.ejs", {
+            info: req.session.username,
+            list: user
+        })
+
+
+    })
+})
+
+//管理员查看教师信息
+app.get('/doTea', (req, res) => {
+    //console.log(req.session.number)
+    Service.User.find({ "identity": "2" }, (err, user) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        // console.log(user)
+        res.render("a_teacher.ejs", {
+            info: req.session.username,
+            list: user
+        })
+
+
+    })
+})
+//管理员删除教师账号
+app.get('/delTea', (req, res) => {
+    console.log(req.query._id)
+    Service.User.deleteOne({ "_id": req.query._id }, function (err) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log('成功');
+    });
+
+    Service.User.find({ "identity": "2" }, (err, user) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        // console.log(user)
+        res.render("a_teacher.ejs", {
+            info: req.session.username,
+            list: user
+        })
+
+
+    })
+})
+//管理员查询某个学生的请假记录
+app.get('/QueryL', (req, res) => {
+    Service.Leave.find({ "number":req.query.num }, (err, leave) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        // console.log(user)
+        res.render("a_leave.ejs", {
+            info: req.session.username,
+            list: leave
+        })
+
+    
+})
+})
+
+//管理员修改请假状态
+app.get('/Modify_state', (req, res) => {
+
+    Service.Leave.updateOne({ _id: req.query.id }, { state :req.query.new_state}, function(err, res) { 
+        if(err){console.log(err); 
+            return; 
+        }
+        console.log('成功') });
+      
+
+
+        Service.Leave.find({ "number":req.query.num }, (err, leave) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            // console.log(user)
+            res.render("a_leave.ejs", {
+                info: req.session.username,
+                list: leave
+            })
+    
+        
+    })
+})
+
+//管理员删除某个学生的一条请假记录
+app.get('/a_delLea', (req, res) => {
+    console.log(req.query._id)
+    Service.Leave.deleteOne({ "_id": req.query.id }, function (err) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log('成功');
+    });
+
+    Service.Leave.find({ "number":req.query.num }, (err, leave) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        // console.log(user)
+        res.render("a_leave.ejs", {
+            info: req.session.username,
+            list: leave
+        })
+
+    
+})
+})
 app.listen(3000)
 
