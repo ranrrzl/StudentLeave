@@ -36,13 +36,13 @@ app.get('/', (req, res) => {
 })
 
 app.get('/s_index', (req, res) => {
-    if (req.session.user == null) res.render('s_index.ejs', { info: null })
-    else res.render('s_index.ejs', { info: req.session.user.username })
+    if (req.session.username == "") res.render('s_index.ejs', { info: null })
+    else res.render('s_index.ejs', { info: req.session.username })
 })
 
 app.get('/t_index', (req, res) => {
-    if (req.session.user == null) res.render('t_index.ejs', { info: null })
-    else res.render('t_index.ejs', { info: req.session.user.username })
+    if (req.session.username == "") res.render('t_index.ejs', { info: null })
+    else res.render('t_index.ejs', { info: req.session.username })
 })
 
 app.get('/a_index', (req, res) => {
@@ -105,7 +105,7 @@ app.post('/t_doLogin', (req, res) => {
     Service.User.findOne({ "number": number, "password": password }).exec((err, user) => {
         //  console.log(user)
         if (err) return console.log(err)
-        if (!user) res.render("s_login.ejs", { info: "账号或密码错误" })
+        if (!user) res.render("t_login.ejs", { info: "账号或密码错误" })
         else {
             //req.session.user = user
             req.session.username = user.username
@@ -126,12 +126,14 @@ app.post('/t_doLogin', (req, res) => {
 app.post('/a_doLogin', (req, res) => {
     var number = req.body.number
     var password = req.body.password
-    if(number=="admin"&&password=="123")
-    {
+    if (number == "admin" && password == "123") {
         req.session.username = "admin"
         res.render("a_index.ejs", { info: "admin" })
     }
-    
+    else {
+        res.render("a_login.ejs", { info: "账号或密码错误" })
+    }
+
 })
 
 
@@ -258,7 +260,7 @@ app.get('/s_leave', (req, res) => {
             leave[i].phone = req.session.phone
             leave[i].class_ = req.session.class_
         }
-
+        //console.log(leave[0].class_)
         //console.log(list)
         res.render("s_leave.ejs", {
             info: req.session.username,
@@ -268,22 +270,70 @@ app.get('/s_leave', (req, res) => {
 
 })
 
-//学生查询教师信息
-app.get('/s_doTea', (req, res) => {
-    Service.User.find({ "number": req.query.t_num }, (err, user) => {
+//学生查看个人信息
+app.get('/s_doInfo', (req, res) => {
+    Service.User.find({ "number": req.session.number }, (err, docs) => {
         if (err) {
             console.log(err);
             return;
         }
 
-
-        // console.log(user)
-        res.render("s_tea.ejs", {
+        
+        res.render("s_info.ejs", {
             info: req.session.username,
-            tt: user
+            list: docs
         })
     })
 
+})
+
+//教师查看个人信息
+app.get('/t_doInfo', (req, res) => {
+    Service.User.find({ "number": req.session.number }, (err, docs) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+     
+        res.render("t_info.ejs", {
+            info: req.session.username,
+            list: docs
+        })
+    })
+
+})
+
+//学生再次申请
+app.get('/s_again', (req, res) => {
+    Service.Leave.updateOne({ _id: req.query.id }, { state: "申请请假" }, function (err, res) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log('成功')
+    });
+
+    Service.Leave.find({ "number": req.session.number }, (err, leave) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        for (var i = 0; i < leave.length; i++) {
+            leave[i].username = req.session.username
+            leave[i].sex = req.session.sex
+            leave[i].major = req.session.major
+            leave[i].phone = req.session.phone
+            leave[i].class_ = req.session.class_
+        }
+
+        //console.log(list)
+        res.render("s_leave.ejs", {
+            info: req.session.username,
+            list: leave
+        })
+    })
 })
 
 //教师审评学生请假申请
@@ -307,12 +357,14 @@ app.get('/doAppro', (req, res) => {
 //教师通过 申请
 app.get('/doAccept', (req, res) => {
 
-    Service.Leave.updateOne({ _id: req.query.id }, { state :'申请成功' }, function(err, res) { 
-        if(err){console.log(err); 
-            return; 
+    Service.Leave.updateOne({ _id: req.query.id }, { state: '申请成功' }, function (err, res) {
+        if (err) {
+            console.log(err);
+            return;
         }
-        console.log('成功') });
-      
+        console.log('成功')
+    });
+
 
 
     Service.Leave.find({ "major": req.session.major }, (err, leave) => {
@@ -333,12 +385,14 @@ app.get('/doAccept', (req, res) => {
 //教师拒绝 申请
 app.get('/doRufuse', (req, res) => {
 
-    Service.Leave.updateOne({ _id: req.query.id }, { state :'申请失败' }, function(err, res) { 
-        if(err){console.log(err); 
-            return; 
+    Service.Leave.updateOne({ _id: req.query.id }, { state: '申请失败' }, function (err, res) {
+        if (err) {
+            console.log(err);
+            return;
         }
-        console.log('成功') });
-      
+        console.log('成功')
+    });
+
 
 
     Service.Leave.find({ "major": req.session.major }, (err, leave) => {
@@ -442,7 +496,7 @@ app.get('/delTea', (req, res) => {
 })
 //管理员查询某个学生的请假记录
 app.get('/QueryL', (req, res) => {
-    Service.Leave.find({ "number":req.query.num }, (err, leave) => {
+    Service.Leave.find({ "number": req.query.num }, (err, leave) => {
         if (err) {
             console.log(err);
             return;
@@ -453,33 +507,35 @@ app.get('/QueryL', (req, res) => {
             list: leave
         })
 
-    
-})
+
+    })
 })
 
 //管理员修改请假状态
 app.get('/Modify_state', (req, res) => {
 
-    Service.Leave.updateOne({ _id: req.query.id }, { state :req.query.new_state}, function(err, res) { 
-        if(err){console.log(err); 
-            return; 
+    Service.Leave.updateOne({ _id: req.query.id }, { state: req.query.new_state }, function (err, res) {
+        if (err) {
+            console.log(err);
+            return;
         }
-        console.log('成功') });
-      
+        console.log('成功')
+    });
 
 
-        Service.Leave.find({ "number":req.query.num }, (err, leave) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            // console.log(user)
-            res.render("a_leave.ejs", {
-                info: req.session.username,
-                list: leave
-            })
-    
-        
+
+    Service.Leave.find({ "number": req.query.num }, (err, leave) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        // console.log(user)
+        res.render("a_leave.ejs", {
+            info: req.session.username,
+            list: leave
+        })
+
+
     })
 })
 
@@ -494,7 +550,7 @@ app.get('/a_delLea', (req, res) => {
         console.log('成功');
     });
 
-    Service.Leave.find({ "number":req.query.num }, (err, leave) => {
+    Service.Leave.find({ "number": req.query.num }, (err, leave) => {
         if (err) {
             console.log(err);
             return;
@@ -505,8 +561,8 @@ app.get('/a_delLea', (req, res) => {
             list: leave
         })
 
-    
-})
+
+    })
 })
 app.listen(3000)
 

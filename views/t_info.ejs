@@ -1,5 +1,5 @@
-<!-- 学生查询教师的信息 -->
-<!DOCTYPE html>
+<!-- 学生个人信息 -->
+<!DOCTYPE html个人
 <html>
 <head>
 <meta charset="utf-8">
@@ -9,23 +9,26 @@
 <body>
 
 	<div class="container-fluid">
-		<%-include('s_top.ejs')%>
+		<%-include('t_top.ejs')%>
 
 		<div class="row" style="margin-top: 50px">
-			<%-include('s_list.ejs')%>
+			<%-include('t_list.ejs')%>
 
 			<div class="col-lg-9">
 
 				<div class="card">
 					<div class="card-body">
 						<div>
-							<h3>教师信息</h3>
+							<h3>个人信息</h3>
 							<div class="row">
 								<div class="col-lg-8">
-									<p>姓名：<%=tt.username%></p>
-									<p>性别：<%=tt.sex%></p>
-									<p>专业：<%=tt.major%></p>
-									<p>联系方式：<%=tt.phone%></p>
+									
+									<p>姓名：<%=list[0].username%></p>
+									<p>账号：<%=list[0].number%></p>
+									<p>性别：<%=list[0].sex%></p>
+									<p>专业：<%=list[0].major%></p>
+									
+									<p>联系方式：<%=list[0].phone%></p>
 							
 
 

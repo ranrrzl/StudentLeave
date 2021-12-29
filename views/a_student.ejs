@@ -15,17 +15,20 @@
 
 		<div class="row" style="margin-top: 50px">
 			<%-include('a_list.ejs')%>
-
+			
 			<div class="col-lg-9">
-
+				
 				<div class="card ">
 				
 					<div class="card-body ">
+						
 						<table class="table ">
+							
 							<thead class="thead text-muted ">
+								
 								<tr>
 									
-									<th scope="col">姓名</th>
+									<th scope="col" >姓名</th>
 									<th scope="col">学号</th>
                                     <th scope="col">密码</th>
 									<th scope="col">性别</th>
@@ -38,7 +41,7 @@
 							</thead>
 							<tbody>
                                 
-                                <% for(var i = 0; i < list.length ; i++) { %>
+                                <% for(var i = 0; i<list.length ; i++) { %>
                                  
                                         
                                         
@@ -50,12 +53,13 @@
 										
 										<td><%=list[i].sex%></td>
 										<td><%=list[i].major%></td>
-										<td><%=list[i].class_%></td>
+										<td><%=list[i].class_ %></td>
 										<td><%=list[i].phone%></td>
 										
-										<<td><a class="btn btn-outline-primary" href="/delStu?_id=<%=list[i]._id%>" role="button">删除</a></td>
-										<<td><a class="btn btn-outline-primary" href="/QueryL?num=<%=list[i].number%>" role="button">请假记录</a></td>
-
+										<td><a class="btn btn-outline-primary" href="/delStu?_id=<%=list[i]._id%>" role="button">删除 </a></td>
+									
+										<td><a class="btn btn-outline-primary" href="/QueryL?num=<%=list[i].number%>" role="button">请假记录 </a></td>
+										
 
                                         
                                     <%}%>
