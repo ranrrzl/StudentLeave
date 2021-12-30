@@ -28,15 +28,16 @@
 
 ### 3.项目目录结构
 
+```html
 StudentLeave
-├─README.md
-├─app.js
+├─README.md├─app.js
 ├─package-lock.json
 ├─package.json
 ├─views
 ├─node_modules
 ├─modules
 ├─doc
+```
 
 README.md:说明文档
 
@@ -48,6 +49,7 @@ package.json：项目所依赖模块的版本信息
 
 views： 所有ejs页面
 
+```html
 views
 ├─a_index.ejs
 ├─a_leave.ejs
@@ -72,16 +74,21 @@ views
 ├─t_login.ejs
 ├─t_reg.ejs
 └t_top.ejs
+```
+
+
 
 node_modules：存放导入的模块
 
 modules：封装了数据库的相关操作
 
+```html
 modules
 ├─db.js
 ├─leave.js
 ├─service.js
 └user.js
+```
 
 doc：存放图片
 
