@@ -26,8 +26,12 @@
 				<div class="card">
 					
 					<div class="card-body">
-
-						<p style="color: red"><%=info%></p>
+						<div class="alert alert-primary" role="alert">
+							<h2>教师注册</h2>
+						  </div>
+						<% if(info) { %> <div class="alert alert-danger" role="alert">
+							<%=info%>
+						  </div><% } %>
 
 						<form method="post" action="/t_doReg"
 							enctype="multipart/form-data">

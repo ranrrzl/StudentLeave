@@ -19,17 +19,20 @@
 				<div class="card">
 					<div class="card-body">
 						<div>
-							<h3>个人信息</h3>
+							<div class="alert alert-primary" role="alert">
+								<h2>个人信息</h2>
+							  </div>
 							<div class="row">
 								<div class="col-lg-8">
+									<ul class="list-group list-group-flush">
+										<li class="list-group-item"><h5>姓名： <%=list[0].username%></h5></li>
+										<li class="list-group-item"><h5>账号： <%=list[0].number%></h5></li>
+										<li class="list-group-item"><h5>性别： <%=list[0].sex%></h5></li>
+										<li class="list-group-item"><h5>专业： <%=list[0].major%></h5></li>
+										<li class="list-group-item"><h5>班级：<%=list[0].class_ %></h5></li>
+										<li class="list-group-item"><h5>联系方式： <%=list[0].phone%></h5></li>
+									  </ul>
 									
-									<p>姓名：<%=list[0].username%></p>
-									<p>账号：<%=list[0].number%></p>
-									<p>性别：<%=list[0].sex%></p>
-									<p>专业：<%=list[0].major%></p>
-									<p>班级：<%=list[0].class_ %></p>
-									<p>联系方式：<%=list[0].phone%></p>
-							
 
 
 								</div>

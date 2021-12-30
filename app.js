@@ -1,7 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const ejs = require('ejs')
-const querystring = require('querystring');
 
 const Service = require("./modules/service.js")
 const multipart = require('connect-multiparty')
@@ -271,7 +270,7 @@ app.get('/s_leave', (req, res) => {
 })
 
 //学生查看个人信息
-app.get('/s_doInfo', (req, res) => {
+app.get('/s_doInfo', (req, res) =>  {
     Service.User.find({ "number": req.session.number }, (err, docs) => {
         if (err) {
             console.log(err);

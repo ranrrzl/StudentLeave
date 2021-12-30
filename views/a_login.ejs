@@ -27,7 +27,9 @@
                             <div class="card-header bg-transparent border-primary ">管理员登录</div>
 
                             <div class="card-body">
-                                <% if(info) { %><p style="color:red"><%=info%></p><% } %>
+                                <% if(info) { %> <div class="alert alert-danger" role="alert">
+                                    <%=info%>
+                                  </div><% } %>
 
                                 <form method="post" action="a_doLogin">
                                     <div class="form-group row">

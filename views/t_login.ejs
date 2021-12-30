@@ -27,8 +27,9 @@
                             <div class="card-header bg-transparent border-primary ">教师登录</div>
 
                             <div class="card-body">
-                                <% if(info) { %><p style="color:red"><%=info%></p><% } %>
-
+                                <% if(info) { %> <div class="alert alert-danger" role="alert">
+                                    <%=info%>
+                                  </div><% } %>
                                 <form method="post" action="t_doLogin">
                                     <div class="form-group row">
                                         <label for="inputEmail3" class="col-sm-3 col-form-label">账号</label>
